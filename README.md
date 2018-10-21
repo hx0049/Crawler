@@ -3,7 +3,7 @@ crawler application for CSDN blog and so on...
 
 This is a collection of crawler application 
 
-## CSDNCrawlerApp:
+## 1.CSDNCrawlerApp:
  This is a crawler application for us to crawling blod data from CSDN with keywords.
  Unfortunaly it is only a simple project to practice, I won't try to make this to fit distributed system(For I don't have enough time to do that).
 ### Environment
@@ -29,3 +29,6 @@ Actually, If you understand every step int this project ,you can easy to create 
   
   ### attention
   For convenient,I have crawled every css and picture as I can. all the image and css file in csdn-blog has been converted to base64 string or inner-style element. so it needs a lot of space to store the blog info for mysql, and mysql should enlarge the max-size of fields blob. othewise you will lose some blog-data.
+  
+  ## 2.EBookCrawler:
+  comming soon...

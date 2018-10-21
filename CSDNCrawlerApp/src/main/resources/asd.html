@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="article-copyright">
+    版权声明：本文为博主原创文章，未经博主允许不得转载。 https://blog.csdn.net/qq_22860341/article/details/79173580
+</div>
+<div class="markdown_views prism-atom-one-dark">
+    <!-- flowchart 箭头图标 勿删 -->
+    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path>
+    </svg>
+    <blockquote>
+        <p>上一章节Spring boot入门， <a href="http://blog.csdn.net/qq_22860341/article/details/78930813" rel="nofollow">http://blog.csdn.net/qq_22860341/article/details/78930813</a> <br> 本章主要介绍spring boot的核心。</p>
+    </blockquote>
+    <p>*Spring 核心功能 <br> *Spring 配置</p>
+    <hr>
+    <h2 id="spring-核心功能">Spring 核心功能</h2>
+    <p><strong>1. 独立运行的spring 项目</strong></p>
+    <p>Spring Boot可以以jar的形式独立运行，运行一个Spring Boot项目只需要通过 java -jar xxx.jar命令来运行。</p>
+    <p><strong>2. 内嵌servlet容器</strong></p>
+    <p>Spring Boot可以选择内嵌Tomcat，Jetty或者Udertow，这样我们不需要以war的形式部署项目。</p>
+    <p><strong>3. 提供starter简化maven配置</strong> <br> Spring 提供一系列starter pom来简化maven的依赖加载。比如加入spring-boot-starter-web。</p>
+    <pre class="prettyprint"><code class=" hljs xml">       <span class="hljs-tag">&lt;<span class="hljs-title">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-title">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-title">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">dependency</span>&gt;</span></code></pre>
+    <p>Spring Boot会自动加入Tomcat和Spring MVC的依赖。</p>
+    <p><strong>4.自动配置Spring</strong></p>
+    <p>Spring boot会根据在类路径中的jar，类。为jar包里的类自动配置bean，这样极大减少我们要是用的配置。当然并不是所有的场景都是这样，有时候还是需要去自定义配置的。</p>
+    <p><strong>5.准生产的应用监控</strong></p>
+    <p>Spring Boot提供了基于http,ssh，telnet对运行时的项目进行监控。</p>
+    <p><strong>6，无代码生成和xml配置</strong></p>
+    <p>Spring4.x提倡java配置和注解配置组合，二Spring Boot不需要任何xml即可实现spring配置。</p>
+    <p><strong>7，Spring boot的优点</strong> <br> <img src="https://img-blog.csdn.net/20180126160121933?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <h2 id="spring-配置">Spring 配置</h2>
+    <p><strong>1.基本配置</strong></p>
+    <p>(1),<strong>入口类和@SpringBootApplication</strong></p>
+    <p>SpringBoot通常有一个名为*Application.java的入口类，入口类里面有一个main方法，这个main方法其实就是一个标准的Java应用的main方法，也是启动SpringBoot的方法。</p>
+    <p>@SpringBootApplication是SpringBoot的核心注解，它是一个核心注解，源码如下： <br> <img src="https://img-blog.csdn.net/20180126205158273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>其中@EnableAutoconfiguration让Spring Boot根据类路径中的jar包依赖为当前项目进行自动配置。</p>
+    <p>例如添加了spring-boot-starter-web依赖，会自动添加Tomcat和Spring MVC的依赖，那么Spring Boot会对Tomcat和SpringMVC进行自动配置。</p>
+    <p>例如添加了spring-boot-starter-data-jpa依赖，SpringBoot会自动进行JPA相关的配置。 <br> SpringBoot会自动扫描@SpringBootApplication所在类的同级包以及下级包里的bean.</p>
+    <p>(2)<strong>关闭特定的自动配置</strong></p>
+    <p>关闭特定的自动配置使用@SpringBootApplication注解的exclude参数，例如</p>
+    <pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-variable">@SpringBootApplication</span>(exclude={<span class="hljs-constant">DataSourceAutoConfiguration</span>.<span class="hljs-keyword">class</span>})</code></pre>
+    <p><strong>（3）定制Banner</strong></p>
+    <p><strong>1.1 修改banner</strong> <br> (1)当我们启动SpringBoot时有一个默认图案。</p>
+    <p><img src="https://img-blog.csdn.net/20180126222034631?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>（2）我们在src/main/resources下新建一个banner.txt文件. <br> （3）通过<a href="http://patorjk.com/software/taag/" rel="nofollow">http://patorjk.com/software/taag/</a>网站生成字符，如输入shabi,将生成的字符图案复制到banner.txt中. <br> （4）重新运行SpringBoot项目，启动时图案就改变了。 <br> <img src="https://img-blog.csdn.net/20180126222900136?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p><strong>1.2关闭Banner</strong></p>
+    <p>main方法修改为：</p>
+    <pre class="prettyprint"><code class=" hljs cs"><span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) {
+        <span class="hljs-comment">//SpringApplication.run(DemoApplication.class, args);</span>
+        SpringApplication app = <span class="hljs-keyword">new</span> SpringApplication(DemoApplication.class);
+        app.setShowbanner(<span class="hljs-keyword">false</span>);
+        app.run(args);
+    }</code></pre>
+    <p>或者fluent API修改为</p>
+    <pre class="prettyprint"><code class=" hljs fsharp"><span class="hljs-keyword">new</span> SpringApplicationBuilder(DemoApplication.<span class="hljs-keyword">class</span>)
+                          .showBanner(<span class="hljs-keyword">false</span>)
+                          .run(args);</code></pre>
+    <p>高版本的Spring Boot没有app.setShowbanner(false);方法，我目使用1.5.9版本。可以在application.properties中配置：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">spring<span class="hljs-preprocessor">.main</span><span class="hljs-preprocessor">.banner</span>-mode=off</code></pre>
+    <p><strong>2，Spring Boot的配置文件</strong></p>
+    <p>Spring Boot使用一个全局的配置文件application.properties或者application.yml放置在src/main/resources文件下或类路径的/config下。</p>
+    <p>Spring 不仅支持常规的.properties配置文件，还支持yaml的配置文件，yaml是以数据为中心的语言，在配置数据的时候具有面向对象特征。</p>
+    <p>Spring Boot的全局配置文件的作用是对一些默认配置的配置值进行修改。</p>
+    <p><strong>（1）简单示例</strong></p>
+    <p>将tamcat默认的8080端口改为9090，并将默认的访问路径”/”修改为”/helloboot”； <br> 在application.properties加入：</p>
+    <pre class="prettyprint"><code class=" hljs vala">
+<span class="hljs-preprocessor">#不配置默认为8080端口</span>
+server.port=<span class="hljs-number">9090</span>
+<span class="hljs-preprocessor">#将默认的访问路径"/"修改为"/helloboot"</span>
+server.contextPath=/helloboot  </code></pre>
+    <p>说明：contextPath，context-path通用,这里不介绍application.yml配置。</p>
+    <p><strong>3.starter pom</strong></p>
+    <p>SpringBoot为我们提供了简化企业级开发绝大多数场景的starter pom，只要使用了场景需要的starter pom,SpringBoot会自动配置bean。</p>
+    <p>比如之前说的添加了spring-boot-starter-web依赖，会自动添加Tomcat和Spring MVC的依赖，那么Spring Boot会对Tomcat和SpringMVC进行自动配置。</p>
+    <p>pom.xml:</p>
+    <pre class="prettyprint"><code class=" hljs xml">        <span class="hljs-tag">&lt;<span class="hljs-title">dependency</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-title">groupId</span>&gt;</span>
+            <span class="hljs-tag">&lt;<span class="hljs-title">artifactId</span>&gt;</span>spring-boot-starter-web<span class="hljs-tag">&lt;/<span class="hljs-title">artifactId</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-title">dependency</span>&gt;</span></code></pre>
+    <p>（3.1） <strong>官方提供的starter pom</strong> <br> <img src="https://img-blog.csdn.net/20180127115340764?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> <br> <img src="https://img-blog.csdn.net/20180127115351685?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""> <br> <img src="https://img-blog.csdn.net/20180127115409143?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>（3.2）<strong>第三方starter pom</strong></p>
+    <p><img src="https://img-blog.csdn.net/20180127115657450?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>配置方式 <br> 在pom.xml的project标签中加入：</p>
+    <pre class="prettyprint"><code class=" hljs xml"><span class="hljs-tag">&lt;<span class="hljs-title">repositories</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">repository</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">id</span>&gt;</span>唯一id<span class="hljs-tag">&lt;/<span class="hljs-title">id</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>名称<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">url</span>&gt;</span>url远程链接<span class="hljs-tag">&lt;/<span class="hljs-title">url</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">repository</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">repository</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-title">id</span>&gt;</span>lilyproject<span class="hljs-tag">&lt;/<span class="hljs-title">id</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">name</span>&gt;</span>Lily Maven repository<span class="hljs-tag">&lt;/<span class="hljs-title">name</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-title">url</span>&gt;</span>http://lilyproject.org/maven/maven2/deploy/<span class="hljs-tag">&lt;/<span class="hljs-title">url</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-title">repository</span>&gt;</span>
+
+<span class="hljs-tag">&lt;/<span class="hljs-title">repositories</span>&gt;</span> </code></pre>
+    <p>（3.3）<strong>使用xml配置</strong></p>
+    <p>SpringBoot提倡零配置，即无XML配置，但是在实际开发过程中，可能一些特殊的要求你必须使用xml配置，这时我们可以使用SpringBoot提供的@ImportResource来加载xml配置。 <br> 例如：</p>
+    <pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-variable">@ImportResource</span>({<span class="hljs-string">"classpath:some-content.xml"</span>,<span class="hljs-string">"classpath:another-content.xml"</span>})</code></pre>
+    <p>4，<strong>外部配置文件</strong></p>
+    <p>SpringBoot允许使用properties文件，yaml文件，和命令参数作为外部配置。</p>
+    <p>（4.1）<strong>命令行参数配置</strong></p>
+    <p>SpringBoot是基于jar运行的，打成jar的程序可以通过 下面命令直接运行的。</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">java -jar XXX<span class="hljs-preprocessor">.jar</span></code></pre>
+    <p>可以通过以下命令修改tomcat端口：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">java -jar XXX<span class="hljs-preprocessor">.jar</span> --server<span class="hljs-preprocessor">.port</span>=<span class="hljs-number">9090</span></code></pre>
+    <p>（4.2）<strong>常规属性配置</strong></p>
+    <p>在常规的Spring环境下，注入properties文件里面的值的方式，通过@propertySource指明文件位置，然后通过@Value注入值。 <br> 在SpringBoot项目中，我们只需要在application.properties定义属性，直接使用@Value注入。</p>
+    <p><strong>实例</strong></p>
+    <p>在以前的基础上在application.properties文件增加：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">user<span class="hljs-preprocessor">.myname</span>=bobo
+user<span class="hljs-preprocessor">.age</span>=<span class="hljs-number">18</span>
+</code></pre>
+    <p>@Value注入</p>
+    <pre class="prettyprint"><code class=" hljs java"><span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;
+<span class="hljs-keyword">import</span> org.springframework.web.bind.annotation.RestController;
+
+<span class="hljs-annotation">@RestController</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">HelloComtroller</span> {</span>
+       <span class="hljs-annotation">@Value</span>(<span class="hljs-string">"${user.myname}"</span>)
+       <span class="hljs-keyword">private</span> String name;
+       <span class="hljs-annotation">@Value</span>(<span class="hljs-string">"${user.age}"</span>)
+       <span class="hljs-keyword">private</span> Integer age;
+
+      <span class="hljs-annotation">@RequestMapping</span>(<span class="hljs-string">"/"</span>)
+      <span class="hljs-keyword">public</span> String <span class="hljs-title">helloword</span>(){
+
+       <span class="hljs-keyword">return</span> <span class="hljs-string">"我叫"</span>+name+<span class="hljs-string">",今年"</span>+age+<span class="hljs-string">"岁！"</span>;
+
+      }
+}
+</code></pre>
+    <pre><code>运行结果：
+</code></pre>
+    <p><img src="https://img-blog.csdn.net/20180127173111247?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>说明：这里如果定义user.name是获取系统的名称，后来改为myname。</p>
+    <p>（4.3）<strong>类安全的配置</strong></p>
+    <p>以上使用@Value注入每个配置显得格外的麻烦，因为我们的配置通常有很多个，像那样每个配置就要注入多次。 <br> SpringBoot提供了基于类型安全的配置方式，通过@ConfiggurationProperties将properties属性和一个bean及其属性关联，从而实现类型安全的配置。 <br> 基于以前的application.properties文件：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">user<span class="hljs-preprocessor">.myname</span>=bobo
+user<span class="hljs-preprocessor">.age</span>=<span class="hljs-number">18</span>
+</code></pre>
+    <p>当然我们也可以新建properties文件，通过@ConfiggurationProperties的属性locations指定properties的位置，且需要在入口类上配置。</p>
+    <p>类型安全的bean如下：</p>
+    <pre class="prettyprint"><code class=" hljs java"><span class="hljs-keyword">import</span> org.springframework.boot.context.properties.ConfigurationProperties;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+
+<span class="hljs-annotation">@Component</span>
+<span class="hljs-annotation">@ConfigurationProperties</span>(prefix=<span class="hljs-string">"user"</span>)
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">UserSetting</span> {</span>
+       <span class="hljs-keyword">private</span> String myname;
+       <span class="hljs-keyword">private</span> Integer age;
+    <span class="hljs-keyword">public</span> String <span class="hljs-title">getMyname</span>() {
+        <span class="hljs-keyword">return</span> myname;
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setMyname</span>(String myname) {
+        <span class="hljs-keyword">this</span>.myname = myname;
+    }
+    <span class="hljs-keyword">public</span> Integer <span class="hljs-title">getAge</span>() {
+        <span class="hljs-keyword">return</span> age;
+    }
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setAge</span>(Integer age) {
+        <span class="hljs-keyword">this</span>.age = age;
+    }
+
+}</code></pre>
+    <p>代码解释： <br> 通过@ConfigurationProperties加载文件的配置，prefix属性指定配置时的前缀,locations指定配置文件路径，本例将配置放在application.properties文件中，不需要指定位置。</p>
+    <p>若新建了properties文件，则需要在指定位置。 <br> SpringBoot1.5之前可以通过@ConfigurationProperties的locations属性指定。</p>
+    <pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-variable">@ConfigurationProperties</span>(prefix=<span class="hljs-string">"user"</span>,locations=<span class="hljs-string">"classpath:config/xxxxx.properties"</span>)
+</code></pre>
+    <p>SpringBoot1.5之后使用：</p>
+    <pre class="prettyprint"><code class=" hljs ruby"><span class="hljs-variable">@PropertySource</span>(<span class="hljs-string">"classpath:config/xxxxx.properties"</span>)
+/*<span class="hljs-variable">@PropertySource</span>(value={<span class="hljs-string">""</span>})*<span class="hljs-regexp">/</span></code></pre>
+    <p>检查代码：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">import org<span class="hljs-preprocessor">.springframework</span><span class="hljs-preprocessor">.beans</span><span class="hljs-preprocessor">.factory</span><span class="hljs-preprocessor">.annotation</span><span class="hljs-preprocessor">.Autowired</span><span class="hljs-comment">;</span>
+import org<span class="hljs-preprocessor">.springframework</span><span class="hljs-preprocessor">.beans</span><span class="hljs-preprocessor">.factory</span><span class="hljs-preprocessor">.annotation</span><span class="hljs-preprocessor">.Value</span><span class="hljs-comment">;</span>
+import org<span class="hljs-preprocessor">.springframework</span><span class="hljs-preprocessor">.web</span><span class="hljs-preprocessor">.bind</span><span class="hljs-preprocessor">.annotation</span><span class="hljs-preprocessor">.RequestMapping</span><span class="hljs-comment">;</span>
+import org<span class="hljs-preprocessor">.springframework</span><span class="hljs-preprocessor">.web</span><span class="hljs-preprocessor">.bind</span><span class="hljs-preprocessor">.annotation</span><span class="hljs-preprocessor">.RestController</span><span class="hljs-comment">;</span>
+import <span class="hljs-keyword">com</span><span class="hljs-preprocessor">.example</span><span class="hljs-preprocessor">.demo</span><span class="hljs-preprocessor">.entity</span><span class="hljs-preprocessor">.UserSetting</span><span class="hljs-comment">;</span>
+
+@RestController
+public class HelloComtroller {
+
+    @Autowired
+      private UserSetting userSetting<span class="hljs-comment">;</span>
+
+      @RequestMapping(<span class="hljs-string">"/"</span>)
+      public String helloword(){
+
+       return <span class="hljs-string">"我叫"</span>+userSetting<span class="hljs-preprocessor">.getMyname</span>()+<span class="hljs-string">",今年"</span>+userSetting<span class="hljs-preprocessor">.getAge</span>()+<span class="hljs-string">"岁！"</span><span class="hljs-comment">;</span>
+
+      }
+}</code></pre>
+    <p>代码解释： <br> 使用@Autowired可以直接注入该配置。</p>
+    <p>（4.4）<strong>日志配置</strong></p>
+    <p>SpringBoot支持java Util Logging,Log4j,Log4j2和Logback作为日志框架。 <br> SpringBoot默认使用Logback作为日志框架。</p>
+    <p>配置日志级别：</p>
+    <pre class="prettyprint"><code class=" hljs tex"><span class="hljs-special">#</span>默认的Logback日志框架
+logging.file=E:<span class="hljs-command">\\</span>springBootWork<span class="hljs-command">\\</span>mylog</code></pre>
+    <p>配置日志文件，格式为logging.level.包名=级别</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">logging<span class="hljs-preprocessor">.level</span><span class="hljs-preprocessor">.org</span><span class="hljs-preprocessor">.springframework</span><span class="hljs-preprocessor">.web</span>=DEBUG</code></pre>
+    <p>（4.5）Profile配置</p>
+    <p>profile是Spring用来针对不同的环境对不同的配置提供支持，全局profile使用application-{profile}.properties,如application-prod.properties. <br> 通过在application.properties文件中设置spring.profils.active=prod来指定活动的profile。</p>
+    <p><strong>实例</strong>：</p>
+    <p>下面做一个简单的演示，如我们分为生产环境和开发环境，生产环境下端口为8088，开发环境端口为8888. <br> 新建 <br> application-dev.properties文件中加入</p>
+    <pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">server.port</span>=<span class="hljs-string">8888</span></code></pre>
+    <p>application-prod.properties文件中加入</p>
+    <pre class="prettyprint"><code class=" hljs fix"><span class="hljs-attribute">server.port</span>=<span class="hljs-string">8088</span></code></pre>
+    <p>application.properties配置：</p>
+    <pre class="prettyprint"><code class=" hljs avrasm">spring<span class="hljs-preprocessor">.profiles</span><span class="hljs-preprocessor">.active</span>=prod</code></pre>
+    <p>运行项目</p>
+    <p><img src="https://img-blog.csdn.net/20180127195811579?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+    <p>本章节就介绍到这里，下一章节请关注Spring boot核心技术(二)，将在春节之前写，主要讲解SpringBoot运行原理，核心注解，实战实例等,谢谢关注。 <br> <img src="https://img-blog.csdn.net/20180127200310660?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcXFfMjI4NjAzNDE=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述" title=""></p>
+</div>
+<link href="https://csdnimg.cn/release/phoenix/mdeditor/markdown_views-8cccb36679.css" rel="stylesheet">
+
+</body>
+</html>

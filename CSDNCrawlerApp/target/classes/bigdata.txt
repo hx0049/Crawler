@@ -1,0 +1,7 @@
+大数据
+hadoop
+spark
+HBase
+elasticsearch
+zookeeper
+kafka

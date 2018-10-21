@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: hx0049
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false

@@ -3,7 +3,22 @@ crawler application for CSDN blog and so on...
 
 This is a collection of crawler application 
 
-## 1.CSDNCrawlerApp:
+
+## 1.MilitaryCrawler:
+ This is a crawler application for us to crawling military data from http://www.huanqiu.com and http://mil.news.sina.com.cn.
+If you want to crawle data from other website, you can get some idea from the source code.
+### Environment
+  JDK1.8 
+  Maven 
+  IDE: IntelliJ IDEA
+  (this is a simple maven project, you can run it without any IDE.)
+
+Actually, If you want to learn how to crawling data from net, This project will be very helpful.
+### how to make this application running
+  1.just like the normal Java SE project, find the main method, and run it.
+  
+ 
+## 2.CSDNCrawlerApp:
  This is a crawler application for us to crawling blog data from CSDN with keywords.
  Unfortunaly it is only a simple project to practice, I won't try to make this to fit distributed system(For I don't have enough time to do that).
 ### Environment
@@ -30,7 +45,7 @@ Actually, If you understand every step int this project ,you can easily to creat
   ### attention
   For convenient,I have crawled every css and picture as I can. all the image and css file in csdn-blog has been converted to base64 string or inner-style element. so it needs a lot of space to store the blog info for mysql, and mysql should enlarge the max-size of fields blob. othewise you will lose some blog-data.
   
-  ## 2.EBookCrawler:
+  ## 3.EBookCrawler:
 
 This is a crawler application for us to crawling ebook data from www.duquanben.com. to understand the crawling process, you should know the web structure very well,and find some regular things to make use of.
 
